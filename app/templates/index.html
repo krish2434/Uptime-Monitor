@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Uptime Monitor{% endblock %}
+
+{% block content %}
+<div class="container-lg">
+    {% if current_user %}
+        <div class="dashboard-header">
+            <h1>Welcome, {{ current_user.email }}!</h1>
+            <p>Your uptime monitoring dashboard</p>
+        </div>
+        <div class="text-center">
+            <a href="/dashboard" class="btn btn-primary btn-lg">Go to Dashboard</a>
+        </div>
+    {% else %}
+        <div style="min-height: 60vh; display: flex; align-items: center; justify-content: center;">
+            <div class="text-center">
+                <h1 class="display-4 mb-4">Uptime Monitor</h1>
+                <p class="lead mb-4">Monitor your websites and track their uptime effortlessly</p>
+                <div class="d-flex justify-content-center gap-2">
+                    <a href="/login" class="btn btn-primary btn-lg">Login</a>
+                    <a href="/register" class="btn btn-outline-primary btn-lg">Register</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - Uptime Monitor{% endblock %}
+
+{% block content %}
+<div class="container-lg">
+    <div class="form-section" style="max-width: 600px;">
+        <h2>User Profile</h2>
+        
+        <div class="card mb-4">
+            <div class="card-body">
+                <p><strong>Email:</strong> {{ current_user.email }}</p>
+                <p><strong>Total Websites:</strong> {{ websites_count }}</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">Account Actions</h5>
+            </div>
+            <div class="card-body">
+                <a href="/logout" class="btn btn-danger w-100">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

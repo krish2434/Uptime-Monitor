@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Websites - Uptime Monitor{% endblock %}
+
+{% block content %}
+<div class="container-lg">
+    <div class="mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1>My Websites</h1>
+            <a href="/add-website" class="btn btn-primary">+ Add Website</a>
+        </div>
+    </div>
+
+    {% if websites %}
+        <div class="websites-grid">
+            {% for website in websites %}
+                <div class="website-card">
+                    <div class="website-card-status">
+                        {% if website.last_status %}
+                            <span class="status-badge {% if website.last_status.value == 'UP' %}operational{% else %}down{% endif %}">
+                                {% if website.last_status.value == 'UP' %}✓ OPERATIONAL{% else %}✗ DOWN{% endif %}
+                            </span>
+                        {% else %}
+                            <span class="status-badge unknown">⊙ UNKNOWN</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="website-card-content">
+                        <div class="website-card-header">
+                            <div class="website-card-title">
+                                <h3>{{ website.url }}</h3>
+                                <a href="{{ website.url }}" target="_blank" class="icon-link">
+                                    <i class="bi bi-box-arrow-up-right"></i>
+                                </a>
+                            </div>
+                            <div class="website-actions">
+                                <a href="/website/{{ website.id }}/edit" class="btn-action">
+                                    <i class="bi bi-pencil"></i> Edit
+                                </a>
+                                <a href="/website/{{ website.id }}" class="btn-action">
+                                    <i class="bi bi-arrow-right-circle"></i> View
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="website-card-info">
+                            <div class="info-item">
+                                <small class="info-label">Checked</small>
+                                <span class="info-value">
+                                    {% if website.last_checked_at %}
+                                        less than a minute ago
+                                    {% else %}
+                                        Never
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="website-card-uptime">
+                            <div class="uptime-history">
+                                {% for check in website.recent_checks %}
+                                    <div class="uptime-block {% if check.status.value == 'UP' %}up{% elif check.status.value == 'DOWN' %}down{% else %}unknown{% endif %}" title="Check - {{ check.status.value }}">
+                                    </div>
+                                {% endfor %}
+                                {% if website.recent_checks|length < 30 %}
+                                    {% for i in range(30 - website.recent_checks|length) %}
+                                        <div class="uptime-block unknown" title="No data">
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="website-card-stats">
+                            <div class="stat-item">
+                                <i class="bi bi-speedometer2"></i>
+                                <div>
+                                    <small>Avg. Latency</small>
+                                    <span class="stat-value">{{ avg_latencies.get(website.id, 'N/A') }}</span>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <i class="bi bi-globe"></i>
+                                <div>
+                                    <small>Regions</small>
+                                    <span class="stat-value">Global</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            <h4 class="alert-heading">No websites added yet</h4>
+            <p>You haven't added any websites to monitor. Add your first website to get started.</p>
+            <a href="/add-website" class="btn btn-primary">Add Website</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

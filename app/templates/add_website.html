@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Add Website - Uptime Monitor{% endblock %}
+
+{% block content %}
+<div class="container-lg">
+    <div class="form-section">
+        <h2>Add New Website</h2>
+        <form method="POST" action="/add-website">
+            <div class="mb-3">
+                <label for="url" class="form-label">Website URL</label>
+                <input type="url" class="form-control" id="url" name="url" placeholder="https://example.com" required>
+                <small class="form-text text-muted">Enter the full URL including protocol (http:// or https://)</small>
+            </div>
+            <div class="mb-3">
+                <label for="check_interval" class="form-label">Check Interval (seconds)</label>
+                <input type="number" class="form-control" id="check_interval" name="check_interval" value="60" min="30" max="3600" required>
+                <small class="form-text text-muted">How often to check the website (30 - 3600 seconds)</small>
+            </div>
+            <div class="mb-3">
+                <label for="name" class="form-label">Website Name (Optional)</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="My Website">
+                <small class="form-text text-muted">A friendly name to identify this website</small>
+            </div>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-between">
+                <button type="submit" class="btn btn-primary">Add Website</button>
+                <a href="/dashboard" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Website - Uptime Monitor{% endblock %}
+
+{% block content %}
+<div class="container-lg">
+    <div class="form-section">
+        <h2>Edit Website</h2>
+        <form method="POST" action="/website/{{ website.id }}/edit">
+            <div class="mb-3">
+                <label for="url" class="form-label">Website URL</label>
+                <input type="url" class="form-control" id="url" name="url" value="{{ website.url }}" required>
+                <small class="form-text text-muted">Enter the full URL including protocol (http:// or https://)</small>
+            </div>
+            <div class="mb-3">
+                <label for="check_interval" class="form-label">Check Interval (seconds)</label>
+                <input type="number" class="form-control" id="check_interval" name="check_interval" value="{{ website.check_interval }}" min="30" max="3600" required>
+                <small class="form-text text-muted">How often to check the website (30 - 3600 seconds)</small>
+            </div>
+            <div class="mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="is_active" name="is_active" {% if website.is_active %}checked{% endif %}>
+                    <label class="form-check-label" for="is_active">
+                        Active (Enable monitoring for this website)
+                    </label>
+                </div>
+            </div>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-between">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a href="/website/{{ website.id }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+        <hr>
+        <div class="mt-4">
+            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                Delete Website
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Website</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong>{{ website.url }}</strong>?</p>
+                <p class="text-danger"><small>This action cannot be undone. All monitoring data for this website will be deleted.</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="POST" action="/website/{{ website.id }}/delete" style="display: inline;">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

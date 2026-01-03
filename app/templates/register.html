@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Uptime Monitor{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-form">
+        <h2>Create Account</h2>
+        <form method="POST" action="/register">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+                <small class="form-text text-muted">We'll never share your email with anyone.</small>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required minlength="8">
+                <small class="form-text text-muted">Minimum 8 characters.</small>
+            </div>
+            <div class="mb-3">
+                <label for="confirm_password" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password" required minlength="8">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Register</button>
+        </form>
+        <hr>
+        <p class="text-center mb-0">
+            Already have an account? <a href="/login">Login here</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
